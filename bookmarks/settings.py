@@ -15,7 +15,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -27,21 +26,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
     'account',
-	'images',
+    'images',
+    'actions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'social.apps.django_app.default',
-	'sorl.thumbnail',
-	'actions',
+    'social.apps.django_app.default',
+    'sorl.thumbnail',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,7 +54,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'bookmarks.urls'
-
 
 TEMPLATES = [
     {
@@ -81,8 +78,12 @@ WSGI_APPLICATION = 'bookmarks.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test',
+        'USER': 'root',
+        'PASSWORD': 'sky97219',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -93,9 +94,9 @@ REDIS_DB = 0
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'Zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -103,12 +104,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -119,21 +118,19 @@ LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#EMAIL_HOST = '127.0.0.1:8000'
-#EMAIL_PORT = 25
-#EMAIL_HOST_USER = '2418412861@qq.com'
-#EMAIL_HOST_PASSWORD = 'sky97219'
-#EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = '127.0.0.1:8000'
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = '2418412861@qq.com'
+# EMAIL_HOST_PASSWORD = 'sky97219'
+# EMAIL_USE_TLS = True
 
 ABSOLUTE_URL_OVERRIDES = {
-	'auth.user': lambda u: reverse_lazy('user_detail',
-										args=[u.username])
+    'auth.user': lambda u: reverse_lazy('user_detail',
+                                        args=[u.username])
 }
 
 AURHENTICATION_BACKENDS = (
-	'django.contrib.auth.backends.ModelBackend',
-	'account.authentication.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
 )
-
-

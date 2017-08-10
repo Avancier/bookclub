@@ -4,7 +4,28 @@
     <head>
         <meta charset="utf-8">      
         <title>{% block title %}{% endblock %}</title>      
-        <link href="{% static "css/base.css" %}" rel="stylesheet">    
+        <link href="{% static "css/base.css" %}" rel="stylesheet">
+        <script src="{% static "js/jquery.2.1.4.min.js" %}"></script>
+        <script src="{% static "js/jquery.cookie.min.js" %} "></script>
+        <script src="{% static "js/jquery.min.map"%}"></script>
+        <script>
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+         // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+}
+});   
+        $(document).ready(function(){
+        {% block domready %}
+        {% endblock %}
+        });
+        </script> 
     </head>    
     <body>      
         <div id="header">
@@ -48,27 +69,7 @@
             {% endblock %}      
         </div> 
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script src=" http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.
-        cookie.min.js "></script>
-        <script>
-        var csrftoken = $.cookie('csrftoken');
-        function csrfSafeMethod(method) {
-         // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-}
-});   
-        $(document).ready(function(){
-        {% block domready %}
-        {% endblock %}
-        });
-        </script>
+     
   
     </body>    
 </html>
